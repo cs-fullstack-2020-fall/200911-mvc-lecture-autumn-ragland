@@ -1,0 +1,7 @@
+@model Starter.Models.ProfessorModel
+<h1>Professor Courses</h1>
+<a asp-area="" asp-controller="Primary" asp-action="DisplayCourseCreateForm" asp-route-professorID ="@Model.id">
+    <button class="btn btn-success">
+        Add a Course
+    </button>
+</a>
