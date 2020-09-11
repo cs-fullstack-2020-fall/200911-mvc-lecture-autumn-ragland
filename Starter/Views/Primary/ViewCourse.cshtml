@@ -1,5 +1,17 @@
 @model Starter.Models.ProfessorModel
-<h1>Professor Courses</h1>
+@* display course details with button to add *@
+<h1>@Model.lastName Courses</h1>
+
+@foreach (CourseModel course in @Model.currentCourses)
+{
+    <div>
+        <p>Title : @course.title</p>
+        <p>Hours : @course.hours</p>
+        <p>Time of Day : @course.timeOfDay</p>
+        <p>At Capacity : @course.atCapacity</p>
+    </div>
+}
+
 <a asp-area="" asp-controller="Primary" asp-action="DisplayCourseCreateForm" asp-route-professorID ="@Model.id">
     <button class="btn btn-success">
         Add a Course

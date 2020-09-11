@@ -1,2 +1,35 @@
 @model Starter.Models.CourseModel
+@* display create course form *@
 <h1>Create Course</h1>
+@using(@Html.BeginForm("AddCourse", "Primary"))
+{
+    @Html.ValidationSummary()
+    <div class="form-group">
+        @Html.LabelFor(course => course.professorID)
+        @Html.TextBoxFor(course => course.professorID, new {@class = "form-control", @readonly = "readonly", @value = @ViewData["profID"]})
+
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(course => course.title)
+        @Html.TextBoxFor(course => course.title, new { @class = "form-control"})
+        @Html.ValidationMessageFor(course => course.title)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(course => course.hours)
+        @Html.TextBoxFor(course => course.hours, new { @class = "form-control"})
+        @Html.ValidationMessageFor(course => course.hours)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(course => course.timeOfDay)
+        @Html.TextBoxFor(course => course.timeOfDay, new { @class = "form-control"})
+    </div>
+
+    <div class="form-check">
+        @Html.CheckBoxFor(course => course.atCapacity, new { @class = "form-check-input"})
+        @Html.LabelFor(course => course.atCapacity, new { @class = "form-check-label"})
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+}

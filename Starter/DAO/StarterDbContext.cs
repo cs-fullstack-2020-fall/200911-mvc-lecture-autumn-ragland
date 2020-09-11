@@ -7,7 +7,7 @@ namespace Starter.DAO
         public StarterDbContext(DbContextOptions<StarterDbContext> options) : base (options)
         {
         }
-        // add db set(s)
+        // database tables
         public DbSet<ProfessorModel> professors{get;set;}
         public DbSet<CourseModel> courses{get;set;}
     }

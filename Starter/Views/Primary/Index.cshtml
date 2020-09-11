@@ -1,4 +1,5 @@
 @model Starter.DAO.StarterDbContext
+@* display all professors with buttons to view details and update *@
 <h1>Course Catalog</h1>
 
     <table class="table">
@@ -19,6 +20,12 @@
                     <a asp-area="" asp-controller="Primary" asp-action="ViewCourses" asp-route-professorID ="@prof.id">
                         <button class="btn btn-success">
                             View Courses
+                        </button>
+                    </a>
+                    
+                    <a asp-area="" asp-controller="Primary" asp-action="DisplayUpdateFrom" asp-route-professorID = "@prof.id">
+                        <button class="btn btn-success">
+                            Update Professor
                         </button>
                     </a>
                 </td>

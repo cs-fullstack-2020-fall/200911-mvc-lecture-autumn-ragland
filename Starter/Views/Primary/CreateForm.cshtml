@@ -1,3 +1,10 @@
 @model Starter.Models.ProfessorModel
+@* display add form using partial for form fields *@
 <h1>Add A Professor</h1>
-<partial name="_profForm" />
+
+@using(@Html.BeginForm("AddProfessor", "Primary"))
+{
+  <partial name="_profForm" />  
+  <button type="submit" class="btn btn-primary">Submit</button>
+}
+

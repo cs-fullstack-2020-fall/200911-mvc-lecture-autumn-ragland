@@ -1,3 +1,11 @@
 @model Starter.Models.ProfessorModel
 <h1>Update Professor</h1>
-<partial name="_profForm" />
+@*  display update form using partial for form fields *@
+@using(@Html.BeginForm("UpdateProfessor", "Primary"))
+{
+  <partial name="_profForm" />
+  <div>
+      @Html.HiddenFor(prof => prof.id)
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+}

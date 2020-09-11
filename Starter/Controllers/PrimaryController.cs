@@ -26,11 +26,15 @@ namespace Starter.Controllers
         {
             // MUST USE INCLUDE SO THAT NEW COURSE CAN BE ADDED TO MATCHING PROFESSOR
             ProfessorModel matchingProf = _context.professors.Include(prof => prof.currentCourses).FirstOrDefault(prof => prof.id == professorID);
+            // if a matching prof is found
             if(matchingProf != null)
             {
+                // render view and pass matching prof
                 return View("ViewCourse", matchingProf);
             } else 
+            // if a matching prof is not found
             {
+                // return error message
                 return Content("No matching professor Found");                
             }
         }
@@ -39,14 +43,19 @@ namespace Starter.Controllers
         [HttpPost]
         public IActionResult AddProfessor(ProfessorModel newProf)
         {
+            // if object passed to endpoint meets model validation
             if(ModelState.IsValid)
             {
+                // add to db
                 _context.professors.Add(newProf);
                 _context.SaveChanges();
+                // redirect to Index method
                 return RedirectToAction("Index"); 
             } else 
+            // if object does not meet model validation
             {
-                return Content("Invalid Model");
+                // display form again with invalid info
+                return View("CreateForm", newProf);
             }
         }
         // display form to add professor to db
@@ -60,41 +69,62 @@ namespace Starter.Controllers
         public IActionResult UpdateProfessor(ProfessorModel updateProf)
         {
             ProfessorModel matchingProf = _context.professors.FirstOrDefault(prof => prof.id == updateProf.id);
+            // if object passed to endpoint meet model validation
             if(ModelState.IsValid)
             {
+                // update properties of matching object and save changes
                 matchingProf.lastName = updateProf.lastName;
                 _context.SaveChanges();
+                // redirect to Index method
                 return RedirectToAction("Index"); 
             } else 
+            // if object passed does not meet model validation
             {
-                return Content("Invalid Model");
+                // display form again with invalid info
+                return View("Update", updateProf);
             }
         }
         // display form to update professor in db
-        public IActionResult DisplayUpdateFrom()
+        public IActionResult DisplayUpdateFrom(int professorID)
         {
-            return View("Update");
+            ProfessorModel foundProfessor = _context.professors.FirstOrDefault(prof => prof.id == professorID);
+            // if matching professor is found
+            if(foundProfessor != null)
+            {
+                return View("Update", foundProfessor);                
+            } else 
+            // if matching professor is not found
+            {
+                return Content("Matching not found");
+            }
+
         }
 /*------------------------------------------------------CREATE COURSE------------------------------------------------------*/
         // add course to db via form
         [HttpPost]
-        public IActionResult AddCourse(CourseModel newCrse, int professorID)
+        public IActionResult AddCourse(CourseModel newCrse)
         {
             // MUST USE INCLUDE SO THAT NEW COURSE CAN BE ADDED TO MATCHING PROFESSOR
-            ProfessorModel matchingProf = _context.professors.Include(prof => prof.currentCourses).FirstOrDefault(prof => prof.id == professorID);
+            ProfessorModel matchingProf = _context.professors.Include(prof => prof.currentCourses).FirstOrDefault(prof => prof.id == newCrse.professorID);
+            // if matching prof is found
             if(matchingProf != null)
             {
+                // if object passes model validation
                 if(ModelState.IsValid)
                 {
+                    // add to list and db
                     matchingProf.currentCourses.Add(newCrse);
                     _context.courses.Add(newCrse);
                     _context.SaveChanges();
                     return RedirectToAction("Index"); 
                 } else 
+                // if model doesn't pass model validation
                 {
-                    return Content("Invalid Model");
+                    // display form again with invalid info
+                    return View("CreateCourse", newCrse);
                 }                
             } else
+            // if matching prof is not found
             {
                 return Content("No matching professor Found");
             }
@@ -102,6 +132,7 @@ namespace Starter.Controllers
         // display form to update course in db
         public IActionResult DisplayCourseCreateForm(int professorID)
         {
+            ViewData["profID"] = professorID;
             return View("CreateCourse");
         }
 

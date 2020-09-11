@@ -1,2 +1,9 @@
 @model Starter.Models.ProfessorModel
-<h1>Professor Form Partial</h1>
+@* partial to display professor form fields *@
+@Html.ValidationSummary()
+
+<div class="form-group">
+    @Html.LabelFor(prof => prof.lastName)
+    @Html.TextBoxFor(prof => prof.lastName, new { @class = "form-control"})
+    @Html.ValidationMessageFor(prof => prof.lastName)
+</div>
